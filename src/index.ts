@@ -1,21 +1,25 @@
-import { initializeSchema } from './config/init-db';
-import pool from './config/database';
+import dotenv from 'dotenv';
+dotenv.config();
 
-/**
- * Entry point of the service.
- * 
- * Currently, this initializes the PostgreSQL schema by ensuring the `posts` table exists.
- */
+import pool from './config/database';
+import { initializeSchema } from './config/init-db';
+import { syncWebzData } from './app/syncWebzData';
+
 (async () => {
   try {
-    // Ensure DB schema is in place
+    // Initialize DB schema
     await initializeSchema();
 
-    console.log('Application initialized successfully');
+    // Run sync and provide callback
+    await syncWebzData((retrievedCount, totalResults) => {
+      console.log(`Callback: Retrieved ${retrievedCount} posts; Total results: ${totalResults}`);
+    });
+
+    console.log('Sync process completed successfully');
   } catch (error) {
-    console.error('Error during application bootstrap:', error);
+    console.error('Error during application execution:', error);
   } finally {
-    // Gracefully close DB connection pool
+    // Clean up DB connection pool
     await pool.end();
     process.exit();
   }
