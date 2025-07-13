@@ -1,7 +1,7 @@
 import pool from './database';
 
 export async function initializeSchema() {
-    const query = `
+  const query = `
     CREATE TABLE IF NOT EXISTS posts (
       uuid TEXT PRIMARY KEY,
       title TEXT,
@@ -18,11 +18,11 @@ export async function initializeSchema() {
     );
   `;
 
-    try {
-        await pool.query(query);
-        console.log('Table "posts" is ready');
-    } catch (err) {
-        console.error('Failed to create table:', err);
-        process.exit(1);
-    }
+  try {
+    await pool.query(query);
+    console.log('Table "posts" is ready');
+  } catch (err) {
+    console.error('Failed to create table:', err);
+    process.exit(1);
+  }
 }
