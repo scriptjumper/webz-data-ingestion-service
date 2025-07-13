@@ -16,6 +16,8 @@ export async function syncWebzData(callback: SyncCallback): Promise<void> {
     throw new Error('WEBZ_API_TOKEN is not defined in environment variables');
   }
 
+  // TODO: Support incremental sync (fetch only new/updated posts since last run)
+  // TODO: Add retry logic for failed API calls
   const webzService = new WebzService(apiToken, query, baseUrl);
   const postRepo = new PostgresPostRepository();
 

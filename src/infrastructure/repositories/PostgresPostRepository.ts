@@ -6,6 +6,9 @@ export class PostgresPostRepository {
   async savePosts(posts: Post[]): Promise<void> {
     if (posts.length === 0) return;
 
+    // TODO: Consider batching large inserts for performance
+    // TODO: Support upsert/update for existing posts if needed
+    // TODO: Review SQL for injection safety and parameterization
     const query = `
       INSERT INTO posts (
         uuid, title, text, url, published, author, language,

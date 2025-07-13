@@ -18,4 +18,6 @@ export const logger = {
       console.debug(`[${timestamp()}] [${levels.debug}]`, message, ...args);
     }
   },
+  // TODO: Add support for configurable log levels and external log transport (e.g., file, remote)
+  // TODO: Consider using a structured logging library for better log management
 };

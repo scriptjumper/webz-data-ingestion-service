@@ -19,6 +19,7 @@ export async function initializeSchema() {
     );
   `;
 
+  // TODO: Use a migration tool for schema changes and versioning
   try {
     await pool.query(query);
     logger.info('Table "posts" is ready');

@@ -47,6 +47,8 @@ export class WebzService {
         }
       } catch (error: any) {
         logger.error('Failed to fetch from Webz.io:', error.message);
+        // TODO: Implement retry logic and exponential backoff for API errors
+        // TODO: Handle Webz.io API rate limits and error codes more gracefully
         break;
       }
     }
@@ -70,4 +72,5 @@ export class WebzService {
       crawled: raw.crawled || new Date().toISOString(),
     };
   }
+  // TODO: Make language and query builder more flexible for future enhancements
 }

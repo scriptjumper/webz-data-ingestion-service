@@ -19,9 +19,11 @@ import { logger } from './utils/logger';
     logger.info('Sync process completed successfully');
   } catch (error) {
     logger.error('Error during application execution:', error);
+    // TODO: Improve error handling and reporting for different error types
   } finally {
     // Clean up DB connection pool
     await pool.end();
+    // TODO: Implement graceful shutdown and resource cleanup
     process.exit();
   }
 })();
