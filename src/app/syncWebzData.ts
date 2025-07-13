@@ -3,6 +3,7 @@ dotenv.config();
 
 import { WebzService } from '../services/WebzService';
 import { PostgresPostRepository } from '../infrastructure/repositories/PostgresPostRepository';
+import { logger } from '../utils/logger';
 
 type SyncCallback = (retrievedCount: number, totalResults: number) => void;
 
@@ -19,17 +20,17 @@ export async function syncWebzData(callback: SyncCallback): Promise<void> {
   const postRepo = new PostgresPostRepository();
 
   try {
-    console.log('Starting sync from Webz.io API...');
+    logger.info('Starting sync from Webz.io API...');
 
     const { posts, totalResults } = await webzService.fetchAllPosts();
 
     await postRepo.savePosts(posts);
 
-    console.log(`Sync complete. Retrieved ${posts.length} posts out of ${totalResults} total.`);
+    logger.info(`Sync complete. Retrieved ${posts.length} posts out of ${totalResults} total.`);
 
     callback(posts.length, totalResults);
   } catch (error) {
-    console.error('Sync failed:', error);
+    logger.error('Sync failed:', error);
     callback(0, 0);
   }
 }

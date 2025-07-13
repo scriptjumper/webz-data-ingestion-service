@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import pool from './database';
 
 export async function initializeSchema() {
@@ -20,9 +21,9 @@ export async function initializeSchema() {
 
   try {
     await pool.query(query);
-    console.log('Table "posts" is ready');
+    logger.info('Table "posts" is ready');
   } catch (err) {
-    console.error('Failed to create table:', err);
+    logger.error('Failed to create table:', err);
     process.exit(1);
   }
 }

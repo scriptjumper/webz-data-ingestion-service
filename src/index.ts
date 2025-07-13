@@ -4,6 +4,7 @@ dotenv.config();
 import pool from './config/database';
 import { initializeSchema } from './config/init-db';
 import { syncWebzData } from './app/syncWebzData';
+import { logger } from './utils/logger';
 
 (async () => {
   try {
@@ -12,12 +13,12 @@ import { syncWebzData } from './app/syncWebzData';
 
     // Run sync and provide callback
     await syncWebzData((retrievedCount, totalResults) => {
-      console.log(`Callback: Retrieved ${retrievedCount} posts; Total results: ${totalResults}`);
+      logger.info(`Callback: Retrieved ${retrievedCount} posts; Total results: ${totalResults}`);
     });
 
-    console.log('Sync process completed successfully');
+    logger.info('Sync process completed successfully');
   } catch (error) {
-    console.error('Error during application execution:', error);
+    logger.error('Error during application execution:', error);
   } finally {
     // Clean up DB connection pool
     await pool.end();

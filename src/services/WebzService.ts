@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Post } from '../domain/interfaces/Post';
 import { WebzQueryBuilder } from './WebzQueryBuilder';
 import { v4 as uuidv4 } from 'uuid';
+import { logger } from '../utils/logger';
 
 interface WebzApiResponse {
   posts: any[];
@@ -37,7 +38,7 @@ export class WebzService {
         const transformed = data.posts.map((post) => this.mapToPost(post));
         allPosts.push(...transformed);
 
-        console.log(`Fetched ${transformed.length} posts — total so far: ${allPosts.length}`);
+        logger.info(`Fetched ${transformed.length} posts — total so far: ${allPosts.length}`);
 
         if (data.moreResultsAvailable > 0 && data.next) {
           url = `${builder.buildUrl()}&next=${data.next}`;
@@ -45,7 +46,7 @@ export class WebzService {
           break;
         }
       } catch (error: any) {
-        console.error('Failed to fetch from Webz.io:', error.message);
+        logger.error('Failed to fetch from Webz.io:', error.message);
         break;
       }
     }

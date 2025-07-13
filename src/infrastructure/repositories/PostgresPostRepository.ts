@@ -3,6 +3,7 @@ import pool from '../../config/database';
 
 import { readFileSync } from 'fs';
 import path from 'path';
+import { logger } from '../../utils/logger';
 
 const insertPostQuery = readFileSync(
   path.join(__dirname, '../sql/insertPosts.sql'),
@@ -32,9 +33,9 @@ export class PostgresPostRepository {
 
     try {
       await pool.query(query, values);
-      console.log(`Saved ${posts.length} posts`);
+      logger.info(`Saved ${posts.length} posts`);
     } catch (err) {
-      console.error('Error inserting posts:', err);
+      logger.error('Error inserting posts:', err);
       throw err;
     }
   }
