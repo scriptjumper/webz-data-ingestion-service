@@ -25,7 +25,7 @@ export class WebzService {
   async fetchAllPosts(): Promise<{ posts: Post[]; totalResults: number }> {
     const allPosts: Post[] = [];
 
-    const builder = new WebzQueryBuilder(this.apiToken, this.baseUrl)
+    const builder = new WebzQueryBuilder(this.apiToken, this.baseUrl + '/newsApiLite')
       .setQuery(this.query)
       .setLanguage('english');
 
@@ -41,7 +41,7 @@ export class WebzService {
         logger.info(`Fetched ${transformed.length} posts — total so far: ${allPosts.length}`);
 
         if (data.moreResultsAvailable > 0 && data.next) {
-          url = `${builder.buildUrl()}&next=${data.next}`;
+          url = this.baseUrl + data.next;
         } else {
           break;
         }
@@ -58,7 +58,7 @@ export class WebzService {
 
   private mapToPost(raw: any): Post {
     return {
-      uuid: uuidv4(),
+      uuid: raw.thread?.uuid || uuidv4(),
       title: raw.title || '',
       text: raw.text || '',
       url: raw.url,

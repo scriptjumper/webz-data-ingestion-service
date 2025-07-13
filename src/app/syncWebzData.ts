@@ -9,7 +9,7 @@ type SyncCallback = (retrievedCount: number, totalResults: number) => void;
 
 export async function syncWebzData(callback: SyncCallback): Promise<void> {
   const apiToken = process.env.WEBZ_API_TOKEN || '';
-  const baseUrl = process.env.WEBZ_API_URL || 'https://api.webz.io/newsApiLite';
+  const baseUrl = process.env.WEBZ_API_URL || 'https://api.webz.io';
   const query = process.env.WEBZ_QUERY || 'tesla';
 
   if (!apiToken) {
