@@ -52,9 +52,8 @@
 
     Create a `.env` file in the root directory. Example:
     ```shell
-    PORT=3000
     DATABASE_URL=postgres://postgres:postgres@localhost:5432/webz
-    WEBZ_API_URL=https://api.webz.io/newsApiLite
+    WEBZ_API_URL=https://api.webz.io
     WEBZ_API_TOKEN=your_token_here
     WEBZ_QUERY=tesla
     ```
