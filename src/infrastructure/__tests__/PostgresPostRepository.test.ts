@@ -1,6 +1,6 @@
 import pool from '../../config/database';
 import { PostgresPostRepository } from '../repositories/PostgresPostRepository';
-import { Post } from '../../domain/models/Post';
+import { Post } from '../../domain/interfaces/Post';
 
 jest.mock('../../config/database', () => ({
   query: jest.fn(),

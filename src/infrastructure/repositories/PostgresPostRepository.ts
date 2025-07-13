@@ -1,4 +1,4 @@
-import { Post } from '../../domain/models/Post';
+import { Post } from '../../domain/interfaces/Post';
 import pool from '../../config/database';
 
 export class PostgresPostRepository {

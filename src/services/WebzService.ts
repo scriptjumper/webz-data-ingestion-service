@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Post } from '../domain/models/Post';
+import { Post } from '../domain/interfaces/Post';
 import { WebzQueryBuilder } from './WebzQueryBuilder';
 import { v4 as uuidv4 } from 'uuid';
 
