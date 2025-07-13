@@ -1,20 +1,29 @@
 import { Post } from '../../domain/interfaces/Post';
 import pool from '../../config/database';
-
-import { readFileSync } from 'fs';
-import path from 'path';
 import { logger } from '../../utils/logger';
-
-const insertPostQuery = readFileSync(
-  path.join(__dirname, '../sql/insertPosts.sql'),
-  'utf8'
-);
 
 export class PostgresPostRepository {
   async savePosts(posts: Post[]): Promise<void> {
     if (posts.length === 0) return;
 
-    const query = insertPostQuery;
+    const query = `
+      INSERT INTO posts (
+        uuid, title, text, url, published, author, language,
+        site, country, domain_rank, entities, crawled
+      ) VALUES 
+        ${posts
+        .map(
+          (_, i) => `
+          (
+            $${i * 12 + 1}, $${i * 12 + 2}, $${i * 12 + 3}, $${i * 12 + 4},
+            $${i * 12 + 5}, $${i * 12 + 6}, $${i * 12 + 7}, $${i * 12 + 8},
+            $${i * 12 + 9}, $${i * 12 + 10}, $${i * 12 + 11}, $${i * 12 + 12}
+          )`,
+        )
+        .join(',')}
+      ON CONFLICT (uuid) DO NOTHING;
+    `;
+
 
     const values = posts.flatMap((post) => [
       post.uuid,

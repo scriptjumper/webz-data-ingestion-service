@@ -42,4 +42,69 @@ describe('WebzService', () => {
     expect(result.posts.length).toBe(1);
     expect(result.posts[0].url).toBe('https://example.com');
   });
+
+  it('should handle paginated responses using next token', async () => {
+    mockedAxios.get
+      .mockResolvedValueOnce({
+        data: {
+          posts: [
+            {
+              title: 'Page 1',
+              text: '',
+              url: 'url1',
+              published: '',
+              author: '',
+              language: '',
+              site: '',
+              country: '',
+              thread: { domain_rank: 0 },
+              entities: { persons: [] },
+              crawled: '',
+            },
+          ],
+          totalResults: 2,
+          moreResultsAvailable: 1,
+          next: 'next-token',
+        },
+        status: 200,
+        statusText: 'OK',
+        headers: {},
+        config: {
+          url: '',
+        },
+      })
+      .mockResolvedValueOnce({
+        data: {
+          posts: [
+            {
+              title: 'Page 2',
+              text: '',
+              url: 'url2',
+              published: '',
+              author: '',
+              language: '',
+              site: '',
+              country: '',
+              thread: { domain_rank: 0 },
+              entities: { persons: [] },
+              crawled: '',
+            },
+          ],
+          totalResults: 2,
+          moreResultsAvailable: 0,
+        },
+        status: 200,
+        statusText: 'OK',
+        headers: {},
+        config: {
+          url: '',
+        },
+      });
+
+    const service = new WebzService('fake-token', 'tesla', 'https://api.webz.io/newsApiLite');
+    const result = await service.fetchAllPosts();
+
+    expect(result.posts.length).toBe(2);
+    expect(mockedAxios.get).toHaveBeenCalledTimes(3);
+  });
 });
