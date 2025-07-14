@@ -7,7 +7,13 @@ import parser from '@typescript-eslint/parser';
 export default [
   js.configs.recommended,
   {
-    ignores: ['node_modules', 'dist', 'coverage'],
+    ignores: [
+      'node_modules',
+      'dist',
+      'coverage',
+      '**/*.test.ts',
+      'src/**/__tests__/**',
+    ],
   },
   {
     files: ['**/*.ts'],
